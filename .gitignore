@@ -1,0 +1,9 @@
+venv/
+.env
+__pycache__/
+downloads/
+reports/
+*.pyc
+last_report.json
+vector_store_cache.pkl
+temp_report.csv
