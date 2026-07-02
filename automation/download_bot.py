@@ -22,12 +22,14 @@ def download_file():
         # ====================================
  
         browser = p.chromium.launch(
-            headless=False,
-            slow_mo=300
+            headless=True,
+            slow_mo=100
         )
  
         context = browser.new_context(
-            accept_downloads=True
+            accept_downloads=True,
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            viewport={"width": 1280, "height": 720}
         )
  
         page = context.new_page()
@@ -38,9 +40,9 @@ def download_file():
         # OPEN WEBSITE
         # ====================================
  
-        page.goto("https://www.tappetbox.in/my_dashboard")
- 
-        page.wait_for_timeout(1500)
+        page.goto("https://www.tappetbox.in")
+        page.wait_for_load_state("networkidle")
+        page.wait_for_timeout(2000)
  
         # ====================================
         # AUTO LOGIN
@@ -57,11 +59,9 @@ def download_file():
 
         # Enter Group ID
         page.locator("input[placeholder='Enter Group/Company ID']").fill(group_id)
-        page.wait_for_timeout(500)
 
         # Enter User ID
         page.locator("input[placeholder='Enter Mobile Number']").fill(user_id)
-        page.wait_for_timeout(500)
 
         # Click Submit
         page.locator("button:has-text('Submit')").click()
@@ -69,7 +69,6 @@ def download_file():
 
         # Enter Password
         page.locator("input[type='password']").fill(password)
-        page.wait_for_timeout(500)
 
         # Click Login
         # Click Login — use exact match to avoid OTP button

@@ -1,12 +1,8 @@
 import json
 import os
-import numpy as np
 import streamlit as st
-import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from rag.vector_store import create_vector_store
-from main import run_download_pipeline
 from processing.read_data import load_and_clean_data
  
 # =========================================
@@ -178,6 +174,8 @@ with col_title:
  
 if st.button("📥 Fetch Latest TappetBox Report"):
     with st.spinner("Connecting to TappetBox and downloading latest reports..."):
+        from main import run_download_pipeline
+
         performance_file, mttr_file = run_download_pipeline()
     if performance_file:
         st.success("Latest reports downloaded successfully!")
@@ -711,6 +709,8 @@ if st.button("Submit"):
  
         if st.session_state.vector_data is None:
             with st.spinner("🔄 Building AI search index from reports..."):
+                from rag.vector_store import create_vector_store
+
                 mttr_path = st.session_state.get(
                     "mttr_report",
                 "downloads/mttr_mtbf_report.xlsx"
@@ -743,6 +743,8 @@ if st.button("Submit"):
                 .replace("-", " ")
                 .replace("/", " ")
             )
+
+            import numpy as np
 
             question_embedding = np.array(
                 model.encode([cleaned_question])
